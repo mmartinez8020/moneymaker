@@ -50,25 +50,16 @@ $(function() {
 
 
 	var blinker = function(element){
-	 	if (element.attr('value') === 'hit'){
-	 		if(element.attr('id') === '0'){
-	 			instrument('bass.wav')
-	 		}
-	 		else if(element.attr('id') === "1"){
-	 			instrument('clap(2).wav')
-	 		}
-	 		else if(element.attr('id') === "2"){
-	 			instrument('hihat(4).wav')
-	 		}
-	 		else if(element.attr('id') === "3"){
-	 			instrument('tom(9).wav')
-	 		}
-	 		else if(element.attr('id') === "4"){
-	 			instrument('hihat.wav')
-	 		}
-	 		else if(element.attr('id') === "5"){
-	 			instrument('ArpEC1.wav')
-	 		}
+    var sampleMapping = {'0': 'bass.wav',
+                         '1': 'clap(2).wav',
+                         '2': 'hihat(4).wav',
+                         '3': 'tom(9).wav',
+                         '4': 'hihat.wav',
+                         '5': 'ArpEC1.wav'}
+	 	
+    if (element.attr('value') === 'hit'){
+	 		var sample = sampleMapping[element.attr('id')];
+      instrument(sample)
 	 	}
 	    element.fadeOut(200);
 	    element.fadeIn(200);

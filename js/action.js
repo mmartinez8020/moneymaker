@@ -16,10 +16,10 @@ $(function() {
 		for(var i = 0; i < 16; i++){
 			$hit = $('<td></td>')
 			$check = $("<div></div>",{shape:"rectangle",
-									  value:"None",
-									  class: "instrument" + i,
-									  name:"check",
-									  id:j});
+            									  value:"None",
+            									  class: "instrument" + i,
+            									  name:"check",
+            									  id:j});
 			$interiorCircle = $("<div></div>").attr('shape','None');
 			$check.append($interiorCircle);
 			$hit.append($check);

@@ -1,0 +1,56 @@
+
+div[shape=rectangle] {
+    /*text-align: center;*/
+    border:1px solid;
+    width:20px;
+    height:20px;
+    border-radius:4px;
+    background-color:#AAAAAA;
+    white-space: nowrap;
+}
+div[shape=circle] {
+    background-color:#333333;
+    width:10px;
+    height:10px;
+    /*display: inline-block; */
+    border-radius:25px;
+    /*margin: 0 auto;*/
+    
+    margin: 5px;
+    
+}
+
+
+
+
+table{
+  background-position: center; 
+  background-color:#888888;
+  border:2px solid;
+
+}
+
+body {
+    background-color: #BBBBBB;
+}
+
+h1{
+  font-family:"Zapf Chancery", cursive;
+  
+}
+button {
+  background: #7d7d7d;
+  background-image: -webkit-linear-gradient(top, #7d7d7d, #858585);
+  background-image: -moz-linear-gradient(top, #7d7d7d, #858585);
+  background-image: -ms-linear-gradient(top, #7d7d7d, #858585);
+  background-image: -o-linear-gradient(top, #7d7d7d, #858585);
+  background-image: linear-gradient(to bottom, #7d7d7d, #858585);
+  -webkit-border-radius: 13;
+  -moz-border-radius: 13;
+  border-radius: 13px;
+  font-family: Courier New;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 11px 20px 10px 20px;
+  text-decoration: none;
+}

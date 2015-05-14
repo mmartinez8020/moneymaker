@@ -34,14 +34,14 @@
 
 
   $("div").click(function(){
-  if($(this).attr('value') === 'None'){
-    $(this).attr('value', 'hit')
-    $(this).children().attr('shape',"circle")
-  }
-  else{
-    $(this).attr('value', 'None')
-    $(this).children().attr('shape',"none")
-  }
+    if($(this).attr('value') === 'None'){
+      $(this).attr('value', 'hit')
+      $(this).children().attr('shape',"circle")
+    }
+    else{
+      $(this).attr('value', 'None')
+      $(this).children().attr('shape',"none")
+    }
   })
 
 
@@ -63,6 +63,7 @@
 
   var currentTime = 0;
   var starting = 200;
+  
   var sequencerRun = function(){	
   for(var k = 0; k < 16; k++){
     $(".instrument td .instrument" + k).each(function(){
@@ -83,13 +84,12 @@
 
   var instrument = function(path){ 
     soundManager.onready(function() {
-    		soundManager.url = '/path/to/swf-files/';
-    		var url = '/drums/' + path
-      	soundManager.createSound({
-          	id: path,
-          	url: url
-      	});
-
+  		soundManager.url = '/path/to/swf-files/';
+  		var url = '/drums/' + path
+  	soundManager.createSound({
+    	id: path,
+    	url: url
+  	});
   	return soundManager.play(path);
   });	
   }

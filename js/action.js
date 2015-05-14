@@ -84,12 +84,12 @@
 
   var instrument = function(path){ 
     soundManager.onready(function() {
-  		soundManager.url = '/path/to/swf-files/';
-  		var url = '/drums/' + path
-  	soundManager.createSound({
-    	id: path,
-    	url: url
-  	});
+      soundManager.url = '/path/to/swf-files/';
+      var url = '/drums/' + path
+    soundManager.createSound({
+      id: path,
+      url: url
+    });
   	return soundManager.play(path);
   });	
   }

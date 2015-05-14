@@ -70,14 +70,11 @@ $(function() {
  	var sequencerRun = function(){	
  	for(var k = 0; k < 16; k++){
 		$(".instrument td .instrument" + k).each(function(){
-				
 				setTimeout(blinker, currentTime,$(this));
 				
 			})
 		currentTime += starting
-
 		}
-		
 	}
 	
 	var timerId 
@@ -86,19 +83,16 @@ $(function() {
 
 	})
 	$('.stop').click(function(){
-			console.log(timerId)
 			clearInterval(timerId);	
 	})
 
 	var instrument = function(path){ 
 		 soundManager.onready(function() {
 		   			soundManager.url = '/path/to/swf-files/';
-		   			
-		   			var Url = '/drums/' + path
-		   			console.log(Url)
+		   			var url = '/drums/' + path
 		        	soundManager.createSound({
 		            	id: path,
-		            	url: Url
+		            	url: url
 		        	});
 
         		return soundManager.play(path);

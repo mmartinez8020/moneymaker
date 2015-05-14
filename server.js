@@ -3,15 +3,11 @@ var path = require('path')
 var fs = require('fs')
 var app = express();               
 
-app.use(express.static(path.join(__dirname,"html")))
-app.use(express.static(path.join(__dirname,"css")))
-app.use(express.static(path.join(__dirname,"js")))
-app.use(express.static(path.join(__dirname,"lib")))
-app.use(express.static(path.join(__dirname,"drum")))
+var assetFolders = ['html','css','js','lib','drum']
 
-
-
-
+for(var i = 0; i < assetFolders.length; i++){
+	app.use(express.static(path.join(__dirname,assetFolders[i])))
+}
 
 var port = 3000;
 app.listen(port);

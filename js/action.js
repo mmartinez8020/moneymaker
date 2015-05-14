@@ -8,6 +8,7 @@ $(function() {
 	$body.append($header)
 	$header.append($container)
 	$container.append($seq)
+  
 
 	var createSample = function(){
 	for(var j = 0; j < 6; j++){	
@@ -34,7 +35,6 @@ $(function() {
 	$stopbutton = $('<button>Stop</button>').addClass('stop')
 	$('body').append($playbutton).append($stopbutton)
 	
-//PLAY SOUND
 
 	$("div").click(function(){
 		if($(this).attr('value') === 'None'){
@@ -45,7 +45,6 @@ $(function() {
 			$(this).attr('value', 'None')
 			$(this).children().attr('shape',"none")
 		}
-
 	})
 
 
@@ -97,12 +96,9 @@ $(function() {
 
         		return soundManager.play(path);
     	});	
+  }
 
-    }
-    
-    
-
- });
+});
 
 	
 

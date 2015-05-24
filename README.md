@@ -4,3 +4,4 @@ A drum sequencer built using SoundManager 2 and jQuery
 
 - Need to fix stop button
 - Need to implement a bpm function
+- Refactor using Angular or Backbone

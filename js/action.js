@@ -44,8 +44,12 @@
     }
   })
 
-
+  var stopped = false;
   var blinker = function(element){
+  if(stopped){
+    
+    return;
+  }
   var sampleMapping = {'0': 'bass.wav',
                  '1': 'clap(2).wav',
                  '2': 'hihat(4).wav',
@@ -80,22 +84,21 @@
   }
 
   var timerId;
-
+  var setInt
   var runSeq = function(){
-    setInterval(sequencerRun,3200);
+    setInt = setInterval(sequencerRun,3200);
   }
 
-
-
-
-
   $('.play').click(function(){
+    stopped = false
     sequencerRun();
     runSeq();
   })
 
   $('.stop').click(function(){
-    //??????
+    
+    clearInterval(setInt)
+    stopped = true;
   })
 
   var instrument = function(sample){

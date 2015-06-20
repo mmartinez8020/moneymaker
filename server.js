@@ -13,5 +13,5 @@ for(var i = 0; i < assetFolders.length; i++){
 
 app.listen(process.env.PORT || 3000);
 
-console.log('Magic happens on port',port);
+
 

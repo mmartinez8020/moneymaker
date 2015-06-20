@@ -9,7 +9,7 @@ for(var i = 0; i < assetFolders.length; i++){
 	app.use(express.static(path.join(__dirname,assetFolders[i])))
 }
 
-var port = 3000;
+
 
 app.listen(process.env.PORT || 3000);
 

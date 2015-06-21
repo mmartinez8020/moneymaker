@@ -67,34 +67,62 @@
 
   var terminate;
 
-  var sequencerRun = function(){	
-  var currentTime = 0 
-  var starting = 200;
-  
-  for(var k = 0; k < 16; k++){
-    $(".instrument td .beat" + k).each(function(){
-      setTimeout(blinker, currentTime,$(this));
-    })
-    currentTime += starting;
-    }
-  }
+  setCorrectingInterval = (function(func, delay) {
+    var instance = { };
 
-  var timerId, setInt;
+    function tick(func, delay) {
+      if (!instance.started) {
+        instance.func = func;
+        instance.delay = delay;
+        instance.startTime = new Date().valueOf();
+        instance.target = delay;
+        instance.started = true;
 
-  var runSeq = function(){
-    setInt = setInterval(sequencerRun,3200);
-  }
+        setTimeout(tick, delay);
+      } else {
+        var elapsed = new Date().valueOf() - instance.startTime,
+          adjust = instance.target - elapsed;
 
-  $('.play').click(function(){
-    stopped = false
-    sequencerRun();
-    runSeq();
-  })
+        instance.func();
+        instance.target += instance.delay;
 
-  $('.stop').click(function(){
-    clearInterval(setInt);
-    stopped = true;
-  })
+        setTimeout(tick, instance.delay + adjust);
+      }
+    };
+
+    return tick(func, delay);
+  });
+
+
+          var sequencerRun = function(){	
+          var currentTime = 0 
+          var starting = 200;
+          var startTime = 0;
+          for(var k = 0; k < 16; k++){
+            $(".instrument td .beat" + k).each(function(){
+              console.log(new Date().valueOf() - startTime)
+              setTimeout(blinker, currentTime,$(this));
+            })
+            currentTime += starting;
+            }
+          }
+
+          var timerId, setInt;
+
+          var runSeq = function(){
+            setInt = setInterval(sequencerRun,3200);
+          }
+
+          $('.play').click(function(){
+            stopped = false
+            sequencerRun();
+            runSeq();
+          })
+
+          $('.stop').click(function(){
+            clearInterval(setInt);
+            stopped = true;
+          })
 
   var instrument = function(sample){
     var drumHit = new Wad({source : '/drums/' + sample, volume : 1})

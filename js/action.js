@@ -65,26 +65,22 @@
     element.fadeIn(200);
   }
 
-
   var terminate;
-
-
-  
 
   var sequencerRun = function(){	
   var currentTime = 0 
-  var starting = 200
+  var starting = 200;
   
   for(var k = 0; k < 16; k++){
     $(".instrument td .beat" + k).each(function(){
       setTimeout(blinker, currentTime,$(this));
     })
-    currentTime += starting
+    currentTime += starting;
     }
   }
 
-  var timerId;
-  var setInt
+  var timerId, setInt;
+
   var runSeq = function(){
     setInt = setInterval(sequencerRun,3200);
   }
@@ -96,22 +92,14 @@
   })
 
   $('.stop').click(function(){
-    
-    clearInterval(setInt)
+    clearInterval(setInt);
     stopped = true;
   })
 
   var instrument = function(sample){
-    var bell = new Wad({source : '/drums/' + sample, volume : 1, detune  : 10},
-      {reverb  : {
-        wet     : 10000000,                                           // Volume of the reverberations.
-         // A URL for an impulse response file, if you do not want to use the default impulse response.
-    }})
-    return bell.play()
+    var drumHit = new Wad({source : '/drums/' + sample, volume : 1})
+    return drumHit.play()
   }
-  
-  
-  instrument()
 
 
 

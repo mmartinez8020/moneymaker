@@ -102,25 +102,24 @@
             stopped = true;
           })
 
-  var instrument = function(sample){
-    return loaded[sample].play()
-    
+  var instrument = function (sample) {
+    return loaded[sample].play();
   }
   // var drumHit = new Wad({source : '/drums/' + sample, volume : 1})
   var loadInstruments = function(){
     
-    var loaded = []
+    var loaded = [];
     var sampleMapping = {'0': 'bass.wav',
                  '1': 'clap(2).wav',
                  '2': 'hihat(4).wav',
                  '3': 'tom(9).wav',
                  '4': 'hihat.wav',
                  '5': 'ArpEC1.wav'}
-    for (var i = 0; i < 6; i ++){
+    for (var i = 0; i < 6; i ++) {
       loaded.push(new Wad({source : '/drums/' + sampleMapping[i], volume : 1}))
     }
-    console.log(loaded[0].play)
-    return loaded
+    
+    return loaded;
 
     }             
     var loaded = loadInstruments();

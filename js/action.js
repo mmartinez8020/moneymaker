@@ -47,9 +47,8 @@
   var stopped = false;
   var blinker = function(element){
   if(stopped){
-    
     return;
-  }
+  } 
   var sampleMapping = {'0': 'bass.wav',
                  '1': 'clap(2).wav',
                  '2': 'hihat(4).wav',
@@ -58,49 +57,54 @@
                  '5': 'ArpEC1.wav'}
 
   if (element.attr('value') === 'hit'){
-    
-    var sample = element.attr('id')
-    
-    instrument(sample)
+    var sample = element.attr('id');
+    instrument(sample);
   }
     element.fadeOut(200);
     element.fadeIn(200);
+    
   }
 
   var terminate;
 
 
+ 
+  var sequenceTimeouts = [];
+  var sequencerRun = function(){	
+  var currentTime = 0;
+  var starting = 200;
+  var startTime = 0;
+    for(var k = 0; k < 16; k++){
+      $(".instrument td .beat" + k).each(function(){
+        sequenceTimeouts.push(setTimeout(blinker, currentTime,$(this)));
+      })
+      currentTime += starting;
+    }
+  }
 
+  var timerId, setInt;
 
-          var sequencerRun = function(){	
-          var currentTime = 0 
-          var starting = 200;
-          var startTime = 0;
-          for(var k = 0; k < 16; k++){
-            $(".instrument td .beat" + k).each(function(){
-              
-              setTimeout(blinker, currentTime,$(this));
-            })
-            currentTime += starting;
-            }
-          }
+  var runSeq = function(){
+    setInt = setInterval(sequencerRun,3200);
+  }
 
-          var timerId, setInt;
+  var stopped = true;
 
-          var runSeq = function(){
-            setInt = setInterval(sequencerRun,3200);
-          }
+  $('.play').click(function(){
+    if (stopped) {
+        stopped = false
+        sequencerRun();
+        runSeq();
+    }
+  })
 
-          $('.play').click(function(){
-            stopped = false
-            sequencerRun();
-            runSeq();
-          })
-
-          $('.stop').click(function(){
-            clearInterval(setInt);
-            stopped = true;
-          })
+  $('.stop').click(function(){
+    clearInterval(setInt);
+    $.each(sequenceTimeouts, function(i, timeout) {
+      clearTimeout(timeout);
+    });
+    stopped = true;
+  })
 
   var instrument = function (sample) {
     return loaded[sample].play();

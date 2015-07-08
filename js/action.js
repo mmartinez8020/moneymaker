@@ -1,23 +1,28 @@
   $(function() {
 
-  //STRUCTURE
-  $body = $('body')
-  $header = $('<h1></h1>').text('$The Money Maker$')
+  // Table/sequencer creation
+  $body = $('<div class="container"></div>');
+
+  $header = $('<div class="header"></div>');
+  $playbackContainer = $('<div class="playback-container"></div>');
+  $stop = $('<div><i class="fa fa-stop fa-3x"></i></div>').addClass('stop');
+  $play = $('<div><i class="fa fa-play-circle fa-3x"></i></div>').addClass('play');
+  $title = $('<h1 class="header-title"></h1>').text('Money Maker 9000');
+  $header.append($title);
+  $playbackContainer.append($stop);
+  $playbackContainer.append($play);
+  $header.append($playbackContainer);
+  $body.append($header);
   $seq = $("<table></table>")
-  $container = $("<div></div>").addClass('container')
-  $body.append($header)
-  $header.append($container)
-  $container.append($seq)
 
-
-  var createSample = function(){
-  for(var j = 0; j < 6; j++){	
-    $sample = $("<tr></tr>",{class:'instrument'})
+  var createSample = function() {
+  for (var j = 0; j < 6; j++) {	
+    $sample = $("<tr></tr>",{ class: 'instrument' })
     $seq.append($sample)
 
   for(var i = 0; i < 16; i++){
-    $hit = $('<td></td>')
-    $check = $("<div></div>",{shape:"rectangle", value:"None", class: "beat" + i, name:"check", id:j});
+    $hit = $('<td></td>');
+    $check = $("<div ></div>",{shape:"rectangle", value:"None", class: "beat" + i, name:"check", id:j});
     $interiorCircle = $("<div></div>").attr('shape','None');
     $check.append($interiorCircle);
     $hit.append($check);
@@ -27,103 +32,110 @@
   }
 
   createSample()
-
-  $playbutton = $('<button>Play</button>').addClass('play');
-  $stopbutton = $('<button>Stop</button>').addClass('stop');
-  $('body').append($playbutton).append($stopbutton)
+  $body.append($seq)
+  $('body').append($body)
 
 
-  $("div").click(function(){
-    if($(this).attr('value') === 'None'){
+  $("div[name='check']").click(function(){
+    if ($(this).attr('value') === 'None') {
       $(this).attr('value', 'hit')
-      $(this).children().attr('shape',"circle")
+      $(this).children().attr('shape','circle')
     }
-    else{
+    else {
       $(this).attr('value', 'None')
       $(this).children().attr('shape',"none")
     }
   });
 
-  var stopped = false;
-  var blinker = function(element){
-  if(stopped){
-    return;
-  } 
-  var sampleMapping = {'0': 'bass.wav',
-                 '1': 'clap(2).wav',
-                 '2': 'hihat(4).wav',
-                 '3': 'tom(9).wav',
-                 '4': 'hihat.wav',
-                 '5': 'ArpEC1.wav'}
+  var timerId, setInt, terminate;
+  var stopped = true;
+  var sequenceTimeouts = [];
+  
+  $('.play').click(playSequencer);
 
-  if (element.attr('value') === 'hit'){
-    var sample = element.attr('id');
-    instrument(sample);
-  }
+  $('.stop').click(stopSequencer);
+
+
+
+
+  $(window).keypress(function (e) {
+    if (e.keyCode == 32 && stopped == false) {
+      e.preventDefault()
+      stopSequencer();
+    } else if (e.keyCode == 32) {
+      e.preventDefault()
+      playSequencer();
+    }
+  })
+
+
+
+  var loadedInstruments = loadInstruments();
+
+  function blinker(element){
+    if (stopped) {
+      return;
+    } 
+    if (element.attr('value') === 'hit') {
+      var sample = element.attr('id');
+      instrument(sample);
+    }
     element.fadeOut(200);
     element.fadeIn(200);
   };
 
-  var terminate;
-
-  var sequenceTimeouts = [];
-  var sequencerRun = function(){	
-  var currentTime = 0;
-  var starting = 200;
-  var startTime = 0;
-    for(var k = 0; k < 16; k++){
-      $(".instrument td .beat" + k).each(function(){
-        sequenceTimeouts.push(setTimeout(blinker, currentTime,$(this)));
+  function sequencerRun() { 
+    var currentTime = 0;
+    var incrementTime = 200;
+    var startTime = 0;
+    for (var k = 0; k < 16; k++) {
+      $(".instrument td .beat" + k).each(function() {
+        sequenceTimeouts.push(setTimeout(blinker, currentTime, $(this)));
       })
-      currentTime += starting;
+      currentTime += incrementTime;
     }
   }
 
-  var timerId, setInt;
-
-  var runSeq = function(){
-    setInt = setInterval(sequencerRun,3200);
-  }
-
-  var stopped = true;
-
-  $('.play').click(function(){
+  function playSequencer() {
     if (stopped) {
-        stopped = false
-        sequencerRun();
-        runSeq();
+      stopped = false;
+      sequencerRun();
+      runSeq();
     }
-  });
+  }
 
-  $('.stop').click(function(){
+  function stopSequencer() {
     clearInterval(setInt);
-    $.each(sequenceTimeouts, function(i, timeout) {
+    $.each(sequenceTimeouts, function(index, timeout) {
       clearTimeout(timeout);
     });
     stopped = true;
-  });
-
-  var instrument = function (sample) {
-    return loaded[sample].play();
   }
-  
-  var loadInstruments = function(){
+
+
+  function runSeq() {
+    setInt = setInterval(sequencerRun,3200);
+  };
+
+  function instrument(sample) {
+    return loadInstruments()[sample].play();
+  }
+
+  function loadInstruments() {
     var loaded = [];
-    var sampleMapping = {'0': 'bass.wav',
-                 '1': 'clap(2).wav',
-                 '2': 'hihat(4).wav',
-                 '3': 'tom(9).wav',
-                 '4': 'hihat.wav',
-                 '5': 'ArpEC1.wav'}
-    for (var i = 0; i < 6; i ++) {
+    var sampleMapping = {
+      '0': 'bass.wav',
+      '1': 'clap(2).wav',
+      '2': 'hihat(4).wav',
+      '3': 'tom(9).WAV',
+      '4': 'hihat.wav',
+      '5': 'ArpEC1.wav'
+    };
+    for (var i = 0; i < 6; i++) {
       loaded.push(new Wad({source : '/drums/' + sampleMapping[i], volume : 1}))
     }
-    
     return loaded;
-
-  };            
-  
-  var loaded = loadInstruments();
+  };  
 });
 
 

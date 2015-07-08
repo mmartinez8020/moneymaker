@@ -28,8 +28,8 @@
 
   createSample()
 
-  $playbutton = $('<button>Play</button>').addClass('play')
-  $stopbutton = $('<button>Stop</button>').addClass('stop')
+  $playbutton = $('<button>Play</button>').addClass('play');
+  $stopbutton = $('<button>Stop</button>').addClass('stop');
   $('body').append($playbutton).append($stopbutton)
 
 
@@ -42,7 +42,7 @@
       $(this).attr('value', 'None')
       $(this).children().attr('shape',"none")
     }
-  })
+  });
 
   var stopped = false;
   var blinker = function(element){
@@ -62,13 +62,10 @@
   }
     element.fadeOut(200);
     element.fadeIn(200);
-    
-  }
+  };
 
   var terminate;
 
-
- 
   var sequenceTimeouts = [];
   var sequencerRun = function(){	
   var currentTime = 0;
@@ -96,7 +93,7 @@
         sequencerRun();
         runSeq();
     }
-  })
+  });
 
   $('.stop').click(function(){
     clearInterval(setInt);
@@ -104,14 +101,13 @@
       clearTimeout(timeout);
     });
     stopped = true;
-  })
+  });
 
   var instrument = function (sample) {
     return loaded[sample].play();
   }
-  // var drumHit = new Wad({source : '/drums/' + sample, volume : 1})
+  
   var loadInstruments = function(){
-    
     var loaded = [];
     var sampleMapping = {'0': 'bass.wav',
                  '1': 'clap(2).wav',
@@ -125,8 +121,9 @@
     
     return loaded;
 
-    }             
-    var loaded = loadInstruments();
+  };            
+  
+  var loaded = loadInstruments();
 });
 
 
